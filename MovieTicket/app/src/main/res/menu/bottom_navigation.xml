@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home"
+        android:icon="@drawable/home_linear"
+        android:title="@string/home"/>
+    <item android:id="@+id/fav"
+        android:title="@string/favorite"
+        android:icon="@drawable/heart_linear"
+        />
+    <item android:id="@+id/order"
+        android:title="@string/order"
+        android:icon="@drawable/order_linear"
+        />
+    <item android:id="@+id/cart"
+        android:title="@string/cart"
+        android:icon="@drawable/cart_linear"
+        />
+</menu>

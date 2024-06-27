@@ -1,4 +1,54 @@
 <resources>
     <string name="app_name">FlickTickets</string>
+
+    // bottom navigation name
+    <string name="home">Home</string>
+    <string name="favorite">Watch list</string>
+    <string name="cart">Cart</string>
+    <string name="order">History</string>
+
+    // screen's names
+    <string name="signin">Sign In</string>
+    <string name="register">Register</string>
+    <string name="search">Search</string>
+    <string name="detail">details</string>
+    <string name="verification">Verification</string>
+    <string name="reset">Resset Password</string>
+
+    // tool bar component's names
     <string name="home_title">What do you want to watch?</string>
+    <string name="profile">User\'s Profile</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //category
+    <string name="now">Now playing</string>
+    <string name="upcoming">Upcoming</string>
+    <string name="top">Top rated</string>
+    <string name="popular">Popular</string>
+
+
+    // other component's name
+    <string name="name">Full name</string>
+    <string name="email">abc@gmail.com</string>
+    <string name="password">Your password</string>
+    <string name="confirm">Confirm password</string>
+    <string name="remember">Remember Me</string>
+    <string name="forgot">Forgot Password?</string>
+    <string name="send">Send</string>
+    <string name="Continue">Continue</string>
+    <string name="resend">Re-send code in</string>
+    <string name="google">Login with Google</string>
+    <string name="facebook">Login with Facebook</string>
+    <string name="or">OR</string>
+    <string name="no_account">Don\'t have an account ?</string>
+    <string name="has_account">Already have an account ?</string>
+    <string name="verify_script">We’ve send you the verification code on \n +1 2620 0323 7631</string>
+    <string name="reset_script">Please enter your email address to \n request a password reset</string>
+    <string name="no_search">we are sorry, we can \n not find the movie :(</string>
+    <string name="no_search_script">Find your movie by Type title, categories, years, etc </string>
+    <string name="about">About Movie</string>
+    <string name="reviews">Reviews</string>
+    <string name="cast">Cast</string>
+
 </resources>
