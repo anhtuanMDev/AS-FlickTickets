@@ -6,6 +6,7 @@
     <string name="favorite">Watch list</string>
     <string name="cart">Cart</string>
     <string name="order">History</string>
+    <string name="schedule">Up coming</string>
 
     // screen's names
     <string name="signin">Sign In</string>
@@ -49,6 +50,11 @@
     <string name="no_search_script">Find your movie by Type title, categories, years, etc </string>
     <string name="about">About Movie</string>
     <string name="reviews">Reviews</string>
+    <string name="trailer">Trailer</string>
     <string name="cast">Cast</string>
+    <string name="category_playing">Now Playing</string>
+    <string name="category_upcoming">Up Coming</string>
+    <string name="category_toprated">Top Rated</string>
+    <string name="category_popular">Popular</string>
 
 </resources>

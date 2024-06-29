@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.movieticket.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/favFragment"
+        android:name="com.example.movieticket.fragments.FavoriteFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_favorite" />
+
+    <fragment
+        android:id="@+id/scheduleFragment"
+        android:name="com.example.movieticket.fragments.OrderFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_order" />
+
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.example.movieticket.fragments.CartFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/detailMovieFragment"
+        android:name="com.example.movieticket.fragments.DetailMovieFragment"
+        android:label="fragment_detail_movie"
+        tools:layout="@layout/fragment_detail_movie" />
+</navigation>
