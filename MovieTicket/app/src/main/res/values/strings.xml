@@ -56,5 +56,7 @@
     <string name="category_upcoming">Up Coming</string>
     <string name="category_toprated">Top Rated</string>
     <string name="category_popular">Popular</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 
 </resources>

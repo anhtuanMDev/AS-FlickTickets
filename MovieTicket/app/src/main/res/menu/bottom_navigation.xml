@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <group android:checkableBehavior="single">
-    <item android:id="@+id/nav_home"
-        android:icon="@drawable/home_linear"
-        android:title="@string/home"/>
-    <item android:id="@+id/nav_fav"
-        android:title="@string/favorite"
-        android:icon="@drawable/heart_linear"
-        />
-    <item android:id="@+id/nav_order"
-        android:title="@string/schedule"
-        android:icon="@drawable/schedule_linear"
-        />
-    <item android:id="@+id/nav_cart"
-        android:title="@string/cart"
-        android:icon="@drawable/cart_linear"
-        />
-    </group>
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/bottom_home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/nav_fav"
+        android:icon="@drawable/bottom_heart"
+        android:title="@string/favorite" />
+    <item
+        android:id="@+id/nav_order"
+        android:icon="@drawable/bottom_schedule"
+        android:title="@string/schedule" />
+    <item
+        android:id="@+id/nav_cart"
+        android:icon="@drawable/bottom_cart"
+        android:title="@string/cart" />
 </menu>
