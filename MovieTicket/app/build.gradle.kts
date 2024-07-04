@@ -31,13 +31,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
 }
+
 
 dependencies {
     // implementation splash screen library
     implementation("androidx.core:core-splashscreen:1.0.0")
     // implementation bottom navigation library
     implementation("com.google.android.material:material:1.4.0")
+    // implementation glide library
+    implementation ("com.github.bumptech.glide:glide:4.14.2")
+    // implementation recyclerview library
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.12.0")

@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/charcoal"
+        android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.Toolbar"
         android:minHeight="?attr/actionBarSize" />
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment">
 
@@ -12,16 +13,38 @@
         android:orientation="vertical"
         android:paddingTop="25dp">
 
+        <EditText
+            android:id="@+id/home_search"
+            android:layout_width="match_parent"
+            android:autofillHints="Spiderman"
+            android:layout_height="45dp"
+            android:drawablePadding="15dp"
+            android:typeface="sans"
+            android:drawableEnd="@drawable/search_linear"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:layout_marginHorizontal="25dp"
+            android:paddingStart="25sp"
+            android:paddingEnd="15sp"
+            android:background="@drawable/round_edge_background"
+            android:hint="Search for your movie"
+            tools:ignore="HardcodedText"/>
+
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recommend"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="60dp"
+            android:clipToPadding="false"
+            android:layout_marginTop="35dp"/>
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="35dp"
             android:layout_marginBottom="15dp"
             android:layoutDirection="ltr"
             android:orientation="horizontal"
@@ -31,7 +54,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingStart="20dp">
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
 
                 <TextView
                     android:id="@+id/home_play"
@@ -100,6 +124,11 @@
             android:id="@+id/home_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:clipToPadding="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
             android:layout_marginBottom="15dp" />
     </LinearLayout>
 </ScrollView>

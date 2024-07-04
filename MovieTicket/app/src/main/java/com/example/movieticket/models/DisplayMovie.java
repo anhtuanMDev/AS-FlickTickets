@@ -4,13 +4,23 @@ public class DisplayMovie {
     private String title;
     private String poster;
     private int rate;
+    private String tags;
     private String id;
 
-    public DisplayMovie(String title, String poster, int rate, String id) {
+    public DisplayMovie(String title, String poster, int rate, String id, String tags) {
         this.title = title;
         this.poster = poster;
         this.rate = rate;
         this.id = id;
+        this.tags = tags;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public String getId() {

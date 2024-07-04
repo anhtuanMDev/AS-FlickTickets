@@ -19,6 +19,7 @@
     // tool bar component's names
     <string name="home_title">What do you want to watch?</string>
     <string name="profile">User\'s Profile</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

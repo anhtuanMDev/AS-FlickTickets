@@ -5,39 +5,44 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateInterpolator;
+import android.widget.Toast;
 
 import com.example.movieticket.R;
 import com.example.movieticket.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-//    private AppBarConfiguration mAppBarConfiguration;
+    private static final int HOME_TITLE = R.string.home_title;
+    private static final int FAVORITE_TITLE = R.string.favorite;
+    private static final int SCHEDULE_TITLE = R.string.schedule;
+    private static final int CART_TITLE = R.string.cart;
+
     private ActivityMainBinding binding;
     private NavController navController;
-    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
+    boolean isLoggedIn = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Handle the splash screen transition.
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        SplashScreen.installSplashScreen(this);
         getSplashScreen().setOnExitAnimationListener(splashScreenView -> {
             final ObjectAnimator slideUp = ObjectAnimator.ofFloat(
                     splashScreenView,
@@ -68,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(R.string.home_title);
         }
 
-        drawerLayout = binding.drawerLayout;
+        // Setup the listener for drawer
+        DrawerLayout drawerLayout = binding.drawerLayout;
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -79,21 +85,82 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-
+        // Setup the listener for bottom navigation
         NavHostFragment navHostFragment =
                 (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.main_content_fragment);
         assert navHostFragment != null;
         navController = navHostFragment.getNavController();
         NavigationUI.setupWithNavController(binding.mainContent.navigation, navController);
         NavigationUI.setupWithNavController(binding.navView, navController);
-    }
 
+        // Set up the listener for BottomNavigationView
+        binding.mainContent.navigation.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            try {
+            switch (id) {
+                case 2131296595:
+                    navController.navigate(R.id.nav_home);
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(HOME_TITLE);
+                    break;
+                case 2131296592:
+                    navController.navigate(R.id.nav_fav);
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(FAVORITE_TITLE);
+                    break;
+                case 2131296597:
+                    navController.navigate(R.id.nav_order);
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(SCHEDULE_TITLE);
+                    break;
+                case 2131296590:
+                    navController.navigate(R.id.nav_cart);
+                    Objects.requireNonNull(getSupportActionBar()).setTitle(CART_TITLE);
+                    break;
+                default:
+                    Log.d("MainActivity Error", "Something has happen, the id is " + id);
+                    return false; // Return false if no case matches
+            }
+            return true;
+            } catch (Exception e){
+                Log.d("MainActivity Error", Objects.requireNonNull(e.getMessage()));
+                return false;
+            }
+        });
+
+
+    }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+        int id = item.getItemId();
+        if (id == R.id.nav_profile) {
+            if (!isLoggedIn) {
+            Intent i = new Intent(this, LoginActivity.class);
+            startActivity(i);}else {
+                Toast.makeText(this,"Already Login", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        MenuItem userAvatarMenuItem = menu.findItem(R.id.nav_profile);
+
+        if (isLoggedIn) {
+            // Load user avatar into the menu item
+            // Assuming you have a method to set the avatar, e.g., setUserAvatar()
+            userAvatarMenuItem.setIcon(R.drawable.avatar_base);
+//            setUserAvatar(userAvatarMenuItem);
+        } else {
+            // Set a default icon or handle login option
+            userAvatarMenuItem.setIcon(R.drawable.avatar_pre);
+        }
+
+        return true;
     }
 }
