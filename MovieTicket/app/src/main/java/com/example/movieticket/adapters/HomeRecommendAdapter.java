@@ -17,10 +17,14 @@ import java.util.List;
 
 public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdapter.HomeRecommendViewHolder> {
 
-    private List<DisplayMovie> movies; // Assuming 'Recommendation' is your data class
+    private List<DisplayMovie> movies;
+    private TextView name, tags;
+    private int selectedPosition = -1; // Field to track the selected position
 
-    public HomeRecommendAdapter(List<DisplayMovie> movies) {
+    public HomeRecommendAdapter(List<DisplayMovie> movies, TextView name, TextView tags) {
         this.movies = movies;
+        this.name = name;
+        this.tags = tags;
     }
 
     @NonNull
@@ -36,7 +40,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
     public void onBindViewHolder(@NonNull HomeRecommendViewHolder holder, int position) {
         // Bind data to the views within the ViewHolder
         DisplayMovie recommendation = movies.get(position);
-        holder.bind(recommendation);
+        holder.bind(recommendation, position == selectedPosition);
     }
 
     @Override
@@ -44,30 +48,47 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
         return movies.size();
     }
 
-    public static class HomeRecommendViewHolder extends RecyclerView.ViewHolder {
+    public void setSelectedPosition(int position) {
+        int previousPosition = selectedPosition;
+        selectedPosition = position;
+        notifyItemChanged(previousPosition);
+        notifyItemChanged(position);
+    }
 
-        // Declare views from your item layout (e.g., ImageView, TextView)
+    public DisplayMovie getMovieAt(int position) {
+        return movies.get(position);
+    }
+
+    public class HomeRecommendViewHolder extends RecyclerView.ViewHolder {
+
         private ImageView imgPoster;
-        private TextView txtTitle, txtTag;
 
         public HomeRecommendViewHolder(View itemView) {
             super(itemView);
             // Initialize your views here using findViewById
             imgPoster = itemView.findViewById(R.id.recommend_poster);
-            txtTitle = itemView.findViewById(R.id.recommend_name);
-            txtTag = itemView.findViewById(R.id.recommend_tag);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        setSelectedPosition(position);
+                    }
+                }
+            });
         }
 
-        public void bind(DisplayMovie recommendation) {
-            // Populate views with data from the Recommendation object
-            // Example using Glide for image loading:
+        public void bind(DisplayMovie recommendation, boolean isSelected) {
             Glide.with(itemView.getContext())
                     .load(recommendation.getPoster())
+                    .placeholder(R.drawable.avatar_base)
+                    .error(R.drawable.banner)
                     .into(imgPoster);
-            txtTitle.setText(recommendation.getTitle());
-            txtTag.setText(recommendation.getTags());
+            name.setText(recommendation.getTitle());
+            tags.setText(recommendation.getTags());
+
+            // Adjust the size of the image based
         }
     }
-
 }
-

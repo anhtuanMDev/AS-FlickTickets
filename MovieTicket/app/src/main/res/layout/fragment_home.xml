@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".fragments.HomeFragment">
 
@@ -16,30 +16,60 @@
         <EditText
             android:id="@+id/home_search"
             android:layout_width="match_parent"
-            android:autofillHints="Spiderman"
             android:layout_height="45dp"
-            android:drawablePadding="15dp"
-            android:typeface="sans"
+            android:layout_marginHorizontal="25dp"
+            android:autofillHints="Spiderman"
+            android:background="@drawable/round_edge_background"
             android:drawableEnd="@drawable/search_linear"
+            android:drawablePadding="15dp"
+            android:hint="Search for your movie"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:layout_marginHorizontal="25dp"
             android:paddingStart="25sp"
             android:paddingEnd="15sp"
-            android:background="@drawable/round_edge_background"
-            android:hint="Search for your movie"
-            tools:ignore="HardcodedText"/>
+            android:typeface="sans"
+            tools:ignore="HardcodedText, TouchTargetSize" />
 
-
-
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/home_recommend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="20dp"
-            android:paddingEnd="60dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="25dp"
             android:clipToPadding="false"
-            android:layout_marginTop="35dp"/>
+            android:paddingStart="120dp"
+            android:paddingEnd="120dp" />
+
+        <TextView
+            android:id="@+id/home_recommend_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:text="Movie Name"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
+
+        <TextView
+            android:id="@+id/home_recommend_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center"
+            android:maxWidth="200dp"
+            android:maxLines="5"
+            android:text="Movie Tag"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <HorizontalScrollView
             android:layout_width="wrap_content"
@@ -124,11 +154,11 @@
             android:id="@+id/home_movie"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:clipToPadding="false"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
-            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
-            android:layout_marginBottom="15dp" />
+            app:spanCount="3" />
     </LinearLayout>
 </ScrollView>

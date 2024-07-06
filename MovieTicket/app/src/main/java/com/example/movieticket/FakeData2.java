@@ -12,5 +12,9 @@ public class FakeData2 {
             new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "123545", "138 minnutees"),
             new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "512345", "138 minnutees"),
             new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "5123545", "138 minnutees"),
-            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "512354", "138 minnutees"));
+            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "512354", "138 minnutees"),
+            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "512354", "138 minnutees"),
+            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "5123546", "138 minnutees"),
+            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "5123547", "138 minnutees"),
+            new TicketMovie("Spiderman", poster, "Action, Adventure, Fantasy", "2018", "5123548", "138 minnutees"));
 }

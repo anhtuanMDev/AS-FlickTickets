@@ -1,21 +1,18 @@
 require("dotenv").config();
-const express = require("express");
-const { driver } = require("mssql/lib/base");
-const sql = require("mssql/msnodesqlv8");
+const sql = require("mssql");
 
 const sqlConfig = {
   user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
-  server: process.env.DB_SERVER,
+  password:process.env.DB_PASSWORD ,
+  database:process.env.DB_DATABASE ,
+  server:process.env.DB_SERVER,
   options: {
-    encrypt: true, // for Azure
     trustServerCertificate: true,
     trustedConnection: false,
     enableArithAbort: true,
-    instancename: "MSSQLSERVER01",
+    instancename: process.env.DB_INSTANCE,
   },
-  port: 2101
+  port: Number(process.env.DB_PORT)
 };
 
 // Create a connection pool
@@ -33,6 +30,7 @@ const poolPromise = new sql.ConnectionPool(sqlConfig)
 // Test connection
 poolPromise.then(pool => {
   console.log('Connection pool created successfully');
+  return pool;
   // Perform any additional setup or checks here
 }).catch(err => {
   console.error('Error creating connection pool', err);
