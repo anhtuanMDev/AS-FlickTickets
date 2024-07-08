@@ -23,10 +23,12 @@ import android.widget.Toast;
 
 import com.example.movieticket.R;
 import com.example.movieticket.databinding.ActivityMainBinding;
+import com.example.movieticket.interfaces.TokenVerificationCallback;
+import com.example.movieticket.utils.HomeUtils;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements TokenVerificationCallback {
 
     private static final int HOME_TITLE = R.string.home_title;
     private static final int FAVORITE_TITLE = R.string.favorite;
@@ -35,9 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private NavController navController;
+    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
-    boolean isLoggedIn = true;
-
+    boolean isLoggedIn = false;
+    private HomeUtils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +77,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Setup the listener for drawer
-        DrawerLayout drawerLayout = binding.drawerLayout;
+        drawerLayout = binding.drawerLayout;
+        utils = new HomeUtils(this);
+
+        utils.verifyToken(binding.getRoot(), this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         drawerToggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -97,35 +109,33 @@ public class MainActivity extends AppCompatActivity {
         binding.mainContent.navigation.setOnItemSelectedListener(item -> {
             int id = item.getItemId();
             try {
-            switch (id) {
-                case 2131296595:
-                    navController.navigate(R.id.nav_home);
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(HOME_TITLE);
-                    break;
-                case 2131296592:
-                    navController.navigate(R.id.nav_fav);
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(FAVORITE_TITLE);
-                    break;
-                case 2131296597:
-                    navController.navigate(R.id.nav_order);
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(SCHEDULE_TITLE);
-                    break;
-                case 2131296590:
-                    navController.navigate(R.id.nav_cart);
-                    Objects.requireNonNull(getSupportActionBar()).setTitle(CART_TITLE);
-                    break;
-                default:
-                    Log.d("MainActivity Error", "Something has happen, the id is " + id);
-                    return false; // Return false if no case matches
-            }
-            return true;
-            } catch (Exception e){
+                switch (id) {
+                    case 2131296604:
+                        navController.navigate(R.id.nav_home);
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(HOME_TITLE);
+                        break;
+                    case 2131296601:
+                        navController.navigate(R.id.nav_fav);
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(FAVORITE_TITLE);
+                        break;
+                    case 2131296606:
+                        navController.navigate(R.id.nav_order);
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(SCHEDULE_TITLE);
+                        break;
+                    case 2131296599:
+                        navController.navigate(R.id.nav_cart);
+                        Objects.requireNonNull(getSupportActionBar()).setTitle(CART_TITLE);
+                        break;
+                    default:
+                        Log.d("MainActivity Error", "Something has happen, the id is " + id);
+                        return false; // Return false if no case matches
+                }
+                return true;
+            } catch (Exception e) {
                 Log.d("MainActivity Error", Objects.requireNonNull(e.getMessage()));
                 return false;
             }
         });
-
-
     }
 
     @Override
@@ -137,9 +147,10 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         if (id == R.id.nav_profile) {
             if (!isLoggedIn) {
-            Intent i = new Intent(this, LoginActivity.class);
-            startActivity(i);}else {
-                Toast.makeText(this,"Already Login", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(this, LoginActivity.class);
+                startActivity(i);
+            } else {
+                Toast.makeText(this, "Already Login", Toast.LENGTH_SHORT).show();
             }
             return true;
         }
@@ -152,15 +163,21 @@ public class MainActivity extends AppCompatActivity {
         MenuItem userAvatarMenuItem = menu.findItem(R.id.nav_profile);
 
         if (isLoggedIn) {
-            // Load user avatar into the menu item
-            // Assuming you have a method to set the avatar, e.g., setUserAvatar()
             userAvatarMenuItem.setIcon(R.drawable.avatar_base);
-//            setUserAvatar(userAvatarMenuItem);
         } else {
             // Set a default icon or handle login option
             userAvatarMenuItem.setIcon(R.drawable.avatar_pre);
         }
 
         return true;
+    }
+
+    @Override
+    public void onVerificationComplete(boolean isSuccess) {
+        isLoggedIn = isSuccess;
+    }
+
+    public void onTesting(){
+        Log.d("login", "onTesting: ");
     }
 }

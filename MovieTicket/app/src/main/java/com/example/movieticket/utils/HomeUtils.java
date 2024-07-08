@@ -1,17 +1,32 @@
 package com.example.movieticket.utils;
 
 import android.content.Context;
-import android.content.Intent;
-import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.view.View;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.movieticket.http.ResponseHTTP;
+import com.example.movieticket.http.ServiceGenerator;
+import com.example.movieticket.interfaces.TokenVerificationCallback;
+import com.example.movieticket.models.Constant;
+import com.example.movieticket.models.UserModel;
+import com.example.movieticket.models.VerfiyToken;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeUtils {
 
     private Context context;
+    private SharedPreferences preferences;
+    private SharedPreferences.Editor edits;
+    private ActivityUtils utils;
 
     public HomeUtils(Context context) {
         this.context = context;
+        this.preferences = context.getSharedPreferences(Constant.sp, Context.MODE_PRIVATE);
+        this.edits = preferences.edit();
+        this.utils = new ActivityUtils(context);
     }
 
     public Context getContext() {
@@ -22,14 +37,54 @@ public class HomeUtils {
         this.context = context;
     }
 
-    public void showToast(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+    public void performSeach(String text) {
     }
 
-    public void performSeach(String text) {}
+    public void verifyToken(View rootView, TokenVerificationCallback callback) {
+        try {
+            if (preferences.contains(Constant.sp_token)) {
+                String token = preferences.getString(Constant.sp_token, "");
+                String username = preferences.getString(Constant.sp_username, "");
 
-    public void changeActivity(Class<? extends AppCompatActivity> activityClass) {
-        Intent intent = new Intent(context, activityClass);
-        context.startActivity(intent);
+                VerfiyToken verifyInfo = new VerfiyToken(token, username);
+//                DuoStringModel verifyInfo = new DuoStringModel();
+//                verifyInfo.addField("token",token);
+//                verifyInfo.addField("username",username);
+
+                ServiceGenerator.createUserService(context)
+                        .verifyToken(verifyInfo)
+                        .enqueue(new Callback<ResponseHTTP<UserModel>>() {
+                            @Override
+                            public void onResponse(Call<ResponseHTTP<UserModel>> call, Response<ResponseHTTP<UserModel>> response) {
+                                if (response.isSuccessful()) {
+                                    ResponseHTTP<UserModel> responseBody = response.body();
+                                    if (responseBody != null && responseBody.isStatus()) {
+                                        utils.showSnackBar("Token verification successful", rootView);
+                                        callback.onVerificationComplete(true);
+                                    } else {
+                                        utils.showSnackBar("Token verification failed. Response body: " + responseBody, rootView);
+                                        callback.onVerificationComplete(false);
+                                    }
+                                } else {
+                                    utils.showSnackBar("Unsuccessful response. Status code: " + response.code(), rootView);
+                                    callback.onVerificationComplete(false);
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseHTTP<UserModel>> call, Throwable throwable) {
+                                utils.showSnackBar("Failed to verify token with failure: " + throwable.getMessage(), rootView);
+                                callback.onVerificationComplete(false);
+                            }
+                        });
+            } else {
+                utils.showSnackBar("Token not found", rootView);
+                callback.onVerificationComplete(false);
+            }
+        } catch (Exception e) {
+            utils.showSnackBar("Error verifying token: " + e.getMessage(), rootView);
+            callback.onVerificationComplete(false);
+        }
     }
+
 }

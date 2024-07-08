@@ -11,7 +11,7 @@ const getMoviesData = async (page, pageSize) => {
             SELECT m.movie_id AS id, m.title, m.poster, m.rate, STRING_AGG(g.name, ', ') AS genres
             FROM movies m
             LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id
-            LEFT JOIN genres g ON mg.genre_name = g.name
+            LEFT JOIN genres g ON mg.genre_id = g.name
             GROUP BY m.movie_id, m.title, m.poster, m.rate
             ORDER BY m.movie_id
             OFFSET @offset ROWS
@@ -129,18 +129,6 @@ const getDisplay = async (page, pageSize) => {
     }
 }
 
-const getHomePage = async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 10;
-
-    try {
-        const data = await getMoviesData(page, pageSize);
-        res.status(200).json(data);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch movies data' });
-    }
-}
-
 const getMovieDetail = async (id, userId) => {
     try {
         const pool = await poolPromise;
@@ -221,7 +209,7 @@ const getMovieDetail = async (id, userId) => {
 }
 
 module.exports = {
-    getHomePage,
+    getMoviesData,
     getMovieDetail,
     getRecommend,
     getDisplay

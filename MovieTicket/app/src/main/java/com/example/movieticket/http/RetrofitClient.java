@@ -1,4 +1,4 @@
-package com.example.movieticket.retrofit;
+package com.example.movieticket.http;
 
 import android.content.Context;
 
@@ -7,14 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 
 public class RetrofitClient {
     private static Retrofit retrofit = null;
-    private static String BASE_URL = Constant.baseUrl;
+    private static final String BASE_URL = Constant.baseUrl;
 
-    public static Retrofit retrofitClient(Context context) {
+    public static Retrofit createRetrofit(Context context) {
         if (context == null) {
             throw new IllegalArgumentException("Context cannot be null");
         }
@@ -23,10 +22,10 @@ public class RetrofitClient {
 
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
+                    .client(OkHTTPInstance.getInstance())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
         }
         return retrofit;
     }
-}
 }

@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/UserRoute");
 const movieRoutes = require("./routes/MovieRoute");
-
+const adminRoutes = require("./routes/AdminRoute");
 const app = express();
 
 
@@ -16,6 +16,7 @@ const HOST = process.env.DB_HOST || 'localhost';
 
 app.use('/user', userRoutes);
 app.use('/movie',movieRoutes);
+app.use('/admin',adminRoutes);
 
 // Start the server
 app.listen(PORT, HOST, () => {

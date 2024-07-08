@@ -1,54 +1,51 @@
-const movieServices = require("../services/MovieService")
+const movieServices = require("../services/MovieService");
 
-async function getMovieList(req,res){
-    const {page, pageSize} = req.body;
-
+async function getMovieList(req, res) {
+    const { page, pageSize } = req.body;
+    console.log(page,pageSize);
     try {
-        const data = await movieServices.getHomePage(page,pageSize);
-        res.json({data, status: true, message: "Get movie list successfully"});
+        const data = await movieServices.getMoviesData(parseInt(page), parseInt(pageSize));
+        res.json({ data, status: true, message: "Get movie list successfully" });
     } catch (error) {
-        res.json({data: null, status: false, message: error});
+        res.json({ data: null, status: false, message: error.message });
     }
-
 }
 
-async function getRecommendList(req,res){
-    const {page, pageSize} = req.body;
+async function getRecommendList(req, res) {
+    const { page, pageSize } = req.query;
 
     try {
-        const data = await movieServices.getRecommend(page,pageSize);
-        res.json({data, status: true, message: "Get recommend movie list successfully"});
+        const data = await movieServices.getRecommend(parseInt(page), parseInt(pageSize));
+        res.json({ data, status: true, message: "Get recommend movie list successfully" });
     } catch (error) {
-        res.json({data: null, status: false, message: error});
+        res.json({ data: null, status: false, message: error.message });
     }
-
 }
 
-async function getDisplayList(req,res){
-    const {page, pageSize} = req.body;
+async function getDisplayList(req, res) {
+    const { page, pageSize } = req.query;
 
     try {
-        const data = await movieServices.getDisplay(page,pageSize);
-        res.json({data, status: true, message: "Get display movie list successfully"});
+        const data = await movieServices.getDisplay(parseInt(page), parseInt(pageSize));
+        res.json({ data, status: true, message: "Get display movie list successfully" });
     } catch (error) {
-        res.json({data: null, status: false, message: error});
+        res.json({ data: null, status: false, message: error.message });
     }
-
 }
- 
-async function getDetail (req, res) {
+
+async function getDetail(req, res) {
     const { id, userId } = req.params;
     try {
-        const movieDetail = await movieServices.getMovieDetail(id,userId);
+        const movieDetail = await movieServices.getMovieDetail(parseInt(id), parseInt(userId));
         res.status(200).json(movieDetail);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}
 
 module.exports = {
     getMovieList,
     getDetail,
     getRecommendList,
     getDisplayList
-}
+};

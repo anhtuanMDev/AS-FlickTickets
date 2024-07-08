@@ -1,5 +1,5 @@
 require("dotenv").config();
-const adminServices = require('../services/AdminService');
+const adminServices = require('../services/AminService');
 
 async function login(req, res) {
     const { username, password } = req.body;

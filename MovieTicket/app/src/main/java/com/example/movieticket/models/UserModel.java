@@ -1,27 +1,62 @@
 package com.example.movieticket.models;
 
-public class UserModel {
-    private String id;
-    private String name;
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
+import com.google.gson.annotations.SerializedName;
 
-    public UserModel(String id, String name, String username, String password, String email, String phone) {
+public class UserModel {
+    @SerializedName("id")
+    private int id;
+    @SerializedName("name")
+    private String name;
+    @SerializedName("username")
+    private String username;
+    @SerializedName("password")
+    private String password;
+    @SerializedName("avatar")
+    private byte[] avatar;
+    @SerializedName("role")
+    private String role;
+    @SerializedName("token")
+    private String token;
+
+    public UserModel(int id, String name, String username, String password, byte[] avatar, String role, String token) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.password = password;
-        this.email = email;
-        this.phone = phone;
+        this.avatar = avatar;
+        this.role = role;
+        this.token = token;
     }
 
-    public String getId() {
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -49,19 +84,4 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 }

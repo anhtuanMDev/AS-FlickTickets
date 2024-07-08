@@ -13,6 +13,7 @@ const loginMethod = (username) => {
 // authentication for user's login token
 const authenticationToken = async (username, token) => {
     try {
+        console.log(username, token);
         //checking token, include checking expires time
         const decoded = jwt.verify(token, SECRET_KEY);
 
@@ -33,9 +34,9 @@ const authentication = async (username, password) => {
         const pool = await poolPromise;
         let query;
         if (isEmail === "string") {
-            query = "SELECT email AS username, password, user_id FROM users WHERE email = @username AND role = 'user'";
+            query = "SELECT email AS username, password, user_id AS id, name, avatar, role FROM users WHERE email = @username AND role = 'user'";
         } else if (isEmail === "number") {
-            query = "SELECT phone AS username, password, user_id FROM users WHERE phone = @username AND role = 'user'";
+            query = "SELECT phone AS username, password, user_id AS id, name, avatar, role FROM users WHERE phone = @username AND role = 'user'";
         } else {
             throw new Error("Invalid login method");
         }
@@ -55,8 +56,8 @@ const authentication = async (username, password) => {
             throw new Error("Incorrect password");
         }
 
-        const token = jwt.sign({ userId: user.user_id, username: user.username }, SECRET_KEY, { expiresIn: '3d' });
-        const data = {token, username, password, role: user.role};
+        const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '3d' });
+        const data = {token, username, password, role: user.role, avatar: user.avatar, name: user.name, id: user.id};
 
         return data;
 
