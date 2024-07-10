@@ -1,5 +1,7 @@
 package com.example.movieticket.utils;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -26,6 +28,12 @@ public class ActivityUtils {
 
     public void changeActivity(Class<? extends AppCompatActivity> activityClass) {
         Intent intent = new Intent(context, activityClass);
+        context.startActivity(intent);
+    }
+
+    public void restartActivity(Class<? extends AppCompatActivity> activityClass) {
+        Intent intent = new Intent(context, activityClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 

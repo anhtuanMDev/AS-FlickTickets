@@ -6,12 +6,12 @@ CREATE TABLE movies (
     movie_id INT PRIMARY KEY IDENTITY(1,1),
     title VARCHAR(255) NOT NULL,
     descr VARCHAR(MAX),
-	poster VARCHAR(100) NOT NULL,
+	poster VARCHAR(255) NOT NULL,
     release_date DATE,
 	duration INTEGER NOT NULL,
     rate INTEGER,
     trailer VARCHAR(500),
-    banner VARCHAR(100)
+    banner VARCHAR(255)
 );
 
 -- Create the actors table
@@ -19,9 +19,9 @@ CREATE TABLE actors (
     id INT PRIMARY KEY IDENTITY(1,1),
     movie_id INT NOT NULL,
     name VARCHAR(255) NOT NULL,
-    image VARCHAR(100),
+    image VARCHAR(255),
     inname_movie VARCHAR(255) NOT NULL,
-    inimage_movie VARCHAR(100) NOT NULL,
+    inimage_movie VARCHAR(255) NOT NULL,
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
 );
 
@@ -79,7 +79,7 @@ CREATE TABLE cinemas (
     cinema_id INT PRIMARY KEY IDENTITY(1,1),
     name VARCHAR(255) NOT NULL,
     location VARCHAR(255) NOT NULL,
-    image VARCHAR(100),
+    image VARCHAR(255),
     descr VARCHAR(MAX)
 );
 
@@ -161,7 +161,7 @@ VALUES
 ('The Matrix', 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.', 'https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '1999-03-31', 136, 90, 'matrix_trailer.mp4', 'https://www.whatisthematrix.com/assetsNew/images/banner_img_mobile.jpg'),
 ('Goodfellas', 'The story of Henry Hill and his life in the mob, covering his relationship with his wife Karen Hill and his mob partners Jimmy Conway and Tommy DeVito.', 'https://www.movieposters.com/cdn/shop/products/ef4b93ef8f7157de3f97ae1ff5d21b56_0526bb98-1f4a-4da5-b928-b0025f5e6371_480x.progressive.jpg?v=1573585487', '1990-09-19', 146, 90, 'goodfellas_trailer.mp4', 'https://territorystudio.com/wp-content/uploads/2018/09/Film_Goodfellas_M_001.jpg'),
 ('The Lord of the Rings: The Return of the King', 'Gandalf and Aragorn lead the World of Men against Sauron''s army to draw his gaze from Frodo and Sam as they approach Mount Doom with the One Ring.', 'https://i.ebayimg.com/images/g/xEcAAOSwUXFbOB5e/s-l1600.jpg', '2003-12-17', 201, 90, 'lotr_return_king_trailer.mp4', 'https://media.cinemacloud.co.uk/imageFilm/1290_1_1.jpg'),
-('Star Wars: Episode V - The Empire Strikes Back', 'After the rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda.', 'https://images2.penguinrandomhouse.com/cover/9780307795458', '1980-05-21', 124, 90, 'empire_strikes_back_trailer.mp4', 'https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/B92552B7CE9B7BB39BB3BDC551F35DB98C04740118F5B30975134814DF7A4E62/scale?width=1200&aspectRatio=1.78&format=webp'),
+('Star Wars: Episode V - The Empire Strikes Back', 'After the rebels are brutally overpowered by the Empire on the ice planet Hoth, Luke Skywalker begins Jedi training with Yoda.', 'https://i.pinimg.com/736x/1f/7c/f4/1f7cf4a04cacd49f0ceae7b84219e8b6.jpg', '1980-05-21', 124, 90, 'empire_strikes_back_trailer.mp4', 'https://riotheatre.ca/wp-content/uploads/2020/06/empire-banner-1-1024x576.jpg'),
 ('The Silence of the Lambs', 'A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.', 'https://m.media-amazon.com/images/I/81SVDO6WcrL.jpg', '1991-02-14', 118, 90, 'silence_lambs_trailer.mp4', 'https://i.ytimg.com/vi/Msigx2eqO6s/maxresdefault.jpg'),
 ('Schindler''s List', 'In German-occupied Poland during World War II, Oskar Schindler gradually becomes concerned for his Jewish workforce after witnessing their persecution by the Nazis.', 'https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '1993-12-15', 195, 90, 'schindlers_list_trailer.mp4', 'https://www.silverscreen.tours/wp-content/uploads/2021/02/schindlers-list-banner-01.jpg'),
 ('Se7en', 'Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins as his motives.', 'https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg', '1995-09-22', 127, 80, 'se7en_trailer.mp4', 'https://hqcovers.net/wp-content/uploads/2014/06/se7en_banner.jpg'),
@@ -174,7 +174,7 @@ VALUES
 ('Braveheart', 'Scottish warrior William Wallace leads his countrymen in a rebellion to free his homeland from the tyranny of King Edward I of England.', 'https://i.ebayimg.com/images/g/D6kAAOSwBCtbI8mL/s-l1600.jpg', '1995-05-24', 178, 80, 'braveheart_trailer.mp4', 'https://i.ytimg.com/vi/1ZS1Il6q7gs/maxresdefault.jpg'),
 ('The Prestige', 'After a tragic accident, two stage magicians engage in a battle to create the ultimate illusion while sacrificing everything they have to outwit each other.', 'https://www.westalexfilms.com/wp-content/uploads/2016/10/WestalexFilms-The-Prestige-Movie-Poster-Are-You-Watching-Closely.jpg', '2006-10-20', 130, 80, 'prestige_trailer.mp4', 'https://image.jimcdn.com/app/cms/image/transf/none/path/s44063efe23c3239b/image/i77648177d14cd474/version/1476696101/image.png'),
 ('The Departed', 'An undercover cop and a mole in the police attempt to identify each other while infiltrating an Irish gang in South Boston.', 'https://i.pinimg.com/736x/8d/a8/f0/8da8f000ea37ed17c04520f0c3057347.jpg', '2006-10-06', 151, 80, 'departed_trailer.mp4', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5z2bltWPlwMkuTKdkl322GmiZPyKASAje2g&usqp=CAU'),
-('The Pianist', 'A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto of World War II.', 'pianist.jpg', '2002-12-04', 150, 80, 'pianist_trailer.mp4', 'pianist_banner.jpg'),
+('The Pianist', 'A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto of World War II.', 'https://image.tmdb.org/t/p/original/ryFXgaymUOFEwTpuqp4Osi9dRxr.jpg', '2002-12-04', 150, 80, 'pianist_trailer.mp4', 'https://www.originalposter.co.uk/uploads/766689479351043_mainphotos.jpg'),
 ('American History X', 'A former neo-nazi skinhead tries to prevent his younger brother from going down the same wrong path that he did.', 'https://m.media-amazon.com/images/I/51Jxom09KIL._AC_UF894,1000_QL80_.jpg', '1998-10-30', 119, 80, 'american_history_x_trailer.mp4', 'https://m.media-amazon.com/images/S/pv-target-images/78ccf3372fd23fdf4ecccb67525ea782a217df5d3614e2aa22116f263d656170._UR1920,1080_SX720_FMjpg_.jpg'),
 ('Interstellar', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.', 'https://upload.wikimedia.org/wikipedia/vi/4/46/Interstellar_poster.jpg', '2014-11-07', 169, 80, 'interstellar_trailer.mp4', 'https://i.imgur.com/Y9WpgvM.jpeg'),
 ('The Intouchables', 'After he becomes a quadriplegic from a paragliding accident, an aristocrat hires a young man from the projects to be his caregiver.', 'https://m.media-amazon.com/images/I/51WbHjvEceL._AC_UF894,1000_QL80_.jpg', '2011-11-02', 112, 80, 'intouchables_trailer.mp4', 'https://facts.net/wp-content/uploads/2023/06/32-facts-about-the-movie-the-intouchables-1687590894.jpeg'),

@@ -2,21 +2,25 @@ package com.example.movieticket.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 
 import com.example.movieticket.http.ResponseHTTP;
 import com.example.movieticket.http.ServiceGenerator;
-import com.example.movieticket.interfaces.TokenVerificationCallback;
+import com.example.movieticket.interfaces.FragmentHomeUtils;
+import com.example.movieticket.interfaces.MainActivityUtils;
 import com.example.movieticket.models.Constant;
-import com.example.movieticket.models.UserModel;
-import com.example.movieticket.models.VerfiyToken;
+import com.example.movieticket.models.DisplayMovie;
+import com.example.movieticket.models.MinimumMovie;
+import com.example.movieticket.models.MovieModel;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeUtils {
-
     private Context context;
     private SharedPreferences preferences;
     private SharedPreferences.Editor edits;
@@ -38,53 +42,71 @@ public class HomeUtils {
     }
 
     public void performSeach(String text) {
+        if(text.isEmpty()) {
+            utils.showToast("please input something");
+            return;
+        }
+
     }
 
-    public void verifyToken(View rootView, TokenVerificationCallback callback) {
-        try {
-            if (preferences.contains(Constant.sp_token)) {
-                String token = preferences.getString(Constant.sp_token, "");
-                String username = preferences.getString(Constant.sp_username, "");
-
-                VerfiyToken verifyInfo = new VerfiyToken(token, username);
-//                DuoStringModel verifyInfo = new DuoStringModel();
-//                verifyInfo.addField("token",token);
-//                verifyInfo.addField("username",username);
-
-                ServiceGenerator.createUserService(context)
-                        .verifyToken(verifyInfo)
-                        .enqueue(new Callback<ResponseHTTP<UserModel>>() {
-                            @Override
-                            public void onResponse(Call<ResponseHTTP<UserModel>> call, Response<ResponseHTTP<UserModel>> response) {
-                                if (response.isSuccessful()) {
-                                    ResponseHTTP<UserModel> responseBody = response.body();
-                                    if (responseBody != null && responseBody.isStatus()) {
-                                        utils.showSnackBar("Token verification successful", rootView);
-                                        callback.onVerificationComplete(true);
-                                    } else {
-                                        utils.showSnackBar("Token verification failed. Response body: " + responseBody, rootView);
-                                        callback.onVerificationComplete(false);
-                                    }
-                                } else {
-                                    utils.showSnackBar("Unsuccessful response. Status code: " + response.code(), rootView);
-                                    callback.onVerificationComplete(false);
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<ResponseHTTP<UserModel>> call, Throwable throwable) {
-                                utils.showSnackBar("Failed to verify token with failure: " + throwable.getMessage(), rootView);
-                                callback.onVerificationComplete(false);
-                            }
-                        });
-            } else {
-                utils.showSnackBar("Token not found", rootView);
-                callback.onVerificationComplete(false);
+    public void getMovieData(View rootView, FragmentHomeUtils callback, int page) {
+        ServiceGenerator.createMovieService(context).getMovies(page).enqueue(new Callback<ResponseHTTP<MovieModel>>() {
+            @Override
+            public void onResponse(Call<ResponseHTTP<MovieModel>> call, Response<ResponseHTTP<MovieModel>> response) {
+                ResponseHTTP<MovieModel> responseHTTP = response.body();
+                MovieModel data = responseHTTP.getBody();
+                if (response.isSuccessful() && data != null) {
+                        callback.getMovieDataComplete(data);
+                }
             }
-        } catch (Exception e) {
-            utils.showSnackBar("Error verifying token: " + e.getMessage(), rootView);
-            callback.onVerificationComplete(false);
-        }
+
+            @Override
+            public void onFailure(Call<ResponseHTTP<MovieModel>> call, Throwable throwable) {
+                utils.showSnackBar("We have some error about " + throwable.getMessage(), rootView);
+                Log.d("Homeutils", "onFailure: " + throwable.getMessage());
+            }
+        });
+    }
+
+    public void getRecommendData(View rootView, FragmentHomeUtils callback, int page) {
+        ServiceGenerator.createMovieService(context).getRecommend(page).enqueue(new Callback<ResponseHTTP<List<DisplayMovie>>>() {
+            @Override
+            public void onResponse(Call<ResponseHTTP<List<DisplayMovie>>> call, Response<ResponseHTTP<List<DisplayMovie>>> response) {
+                ResponseHTTP<List<DisplayMovie>> responseHTTP = response.body();
+                List<DisplayMovie> data = responseHTTP.getBody();
+                if (response.isSuccessful() && data != null) {
+                        callback.getRecommendComplete(data);
+                    utils.showSnackBar("Get recommend successfully", rootView);
+                }else {
+                    utils.showSnackBar("Get recommend fail", rootView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseHTTP<List<DisplayMovie>>> call, Throwable throwable) {
+                utils.showSnackBar("We have some error about " + throwable.getMessage(), rootView);
+                Log.d("Homeutils", "onFailure: "+ throwable.getMessage());
+            }
+        });
+    }
+
+    public void getDisplayData(View rootView, FragmentHomeUtils callback, int page) {
+        ServiceGenerator.createMovieService(context).getDisplay(page).enqueue(new Callback<ResponseHTTP<List<MinimumMovie>>>() {
+            @Override
+            public void onResponse(Call<ResponseHTTP<List<MinimumMovie>>> call, Response<ResponseHTTP<List<MinimumMovie>>> response) {
+                ResponseHTTP<List<MinimumMovie>> responseHTTP = response.body();
+                List<MinimumMovie> data = responseHTTP.getBody();
+                if (response.isSuccessful() && data != null) {
+                        callback.getDisplayComplete(data);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseHTTP<List<MinimumMovie>>> call, Throwable throwable) {
+                utils.showSnackBar("We have some error about " + throwable.getMessage(), rootView);
+                Log.d("Homeutils", "onFailure: " + throwable.getMessage());
+            }
+        });
     }
 
 }

@@ -26,23 +26,40 @@ import com.example.movieticket.R;
 import com.example.movieticket.adapters.HomeRecommendAdapter;
 import com.example.movieticket.adapters.MovieAdapter;
 import com.example.movieticket.databinding.FragmentHomeBinding;
+import com.example.movieticket.interfaces.FragmentHomeUtils;
 import com.example.movieticket.models.DisplayMovie;
+import com.example.movieticket.models.MinimumMovie;
+import com.example.movieticket.models.MovieModel;
 import com.example.movieticket.utils.HomeUtils;
+import com.example.movieticket.utils.MainUtils;
 
-public class HomeFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
+
+import kotlin.collections.ArrayDeque;
+
+public class HomeFragment extends Fragment implements FragmentHomeUtils{
 
     private FragmentHomeBinding bind;
     private RecyclerView movieRcl;
     private TextView txtRcmName, txtRcmTag;
     private TextView edtPlay, edtComing, edtToprate, edtPopular, edtSearch;
-    private HomeUtils utils;
+    private MainUtils utils;
     private ViewPager2 slider;
     private Handler sliderHandler = new Handler();
+    private HomeUtils functUtils;
+    private List<DisplayMovie> recommendList;
+    private List<MinimumMovie> displayMovieList;
+    private HomeRecommendAdapter adapter;
+    private MovieAdapter movieAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        utils = new HomeUtils(getContext());
+        utils = new MainUtils(getContext());
+        functUtils = new HomeUtils(getContext());
+        recommendList = new ArrayList<>();
+        displayMovieList = new ArrayList<>();
     }
 
     @Override
@@ -58,15 +75,19 @@ public class HomeFragment extends Fragment {
         edtSearch = bind.homeSearch;
         txtRcmName = bind.homeRecommendName;
         txtRcmTag = bind.homeRecommendTag;
+
+        functUtils.getMovieData(bind.getRoot(), this, 1);
+
         return bind.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        HomeRecommendAdapter adapter = new HomeRecommendAdapter(FakeData.recommend, txtRcmName, txtRcmTag);
+        adapter = new HomeRecommendAdapter(recommendList, this);
+        movieAdapter = new MovieAdapter(displayMovieList);
         slider.setAdapter(adapter);
-        movieRcl.setAdapter(new MovieAdapter(FakeData.recommend));
+        movieRcl.setAdapter(movieAdapter);
 
         slider.setOffscreenPageLimit(3);
         slider.setClipChildren(false);
@@ -89,9 +110,6 @@ public class HomeFragment extends Fragment {
                 super.onPageSelected(position);
                 sliderHandler.removeCallbacks(sliderRunnable);
                 sliderHandler.postDelayed(sliderRunnable, 3000);
-
-                // Update the name and tags TextViews
-                updateNameAndTags(position);
 
                 if (adapter != null) {
                     adapter.setSelectedPosition(position);
@@ -137,14 +155,6 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void updateNameAndTags(int position) {
-        if (slider.getAdapter() != null) {
-            DisplayMovie currentMovie = ((HomeRecommendAdapter) slider.getAdapter()).getMovieAt(position);
-            txtRcmName.setText(currentMovie.getTitle());
-            txtRcmTag.setText(currentMovie.getTags());
-        }
-    }
-
     private final Runnable sliderRunnable = new Runnable() {
         @Override
         public void run() {
@@ -168,5 +178,35 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         sliderHandler.postDelayed(sliderRunnable, 3000);
+    }
+
+    @Override
+    public void changeRecommendMovie(String name, String tags) {
+        txtRcmName.setText(name);
+        txtRcmTag.setText(tags);
+    }
+
+    @Override
+    public void getMovieDataComplete(MovieModel data) {
+        displayMovieList.clear();
+        recommendList.clear();
+        displayMovieList.addAll(data.getDisplay());
+        recommendList.addAll(data.getRecommend());
+        movieAdapter.notifyItemRangeChanged(0,12);
+        adapter.notifyItemRangeChanged(0,10);
+    }
+
+    @Override
+    public void getRecommendComplete(List<DisplayMovie> data) {
+        recommendList.clear();
+        recommendList.addAll(data);
+        adapter.notifyItemRangeChanged(0,10);
+    }
+
+    @Override
+    public void getDisplayComplete(List<MinimumMovie> data) {
+        int start = displayMovieList.size();
+        displayMovieList.addAll(data);
+        movieAdapter.notifyItemRangeChanged(start, 12);
     }
 }

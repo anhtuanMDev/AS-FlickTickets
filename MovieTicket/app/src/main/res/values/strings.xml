@@ -31,6 +31,7 @@
 
 
     // other component's name
+    <string name="logout">Log out</string>
     <string name="name">Full name</string>
     <string name="email">abc@gmail.com</string>
     <string name="password">Your password</string>

@@ -4,8 +4,8 @@ async function login(req, res) {
   const { username, password } = req.body;
 
   try {
-    const data = await userServices.authentication(username, password);
-    res.json({ data, message: "Login Successfully", status: true  });
+    const body = await userServices.authentication(username, password);
+    res.json({ body, message: "Login Successfully", status: true  });
   } catch (error) {
     res.status(401).json({ message: error.message, status: false, token: null });
   }
@@ -15,8 +15,8 @@ async function register(req,res){
   const {fullName, email, password} = req.body;
 
   try {
-    const data = await userServices.createAccess(fullName, email, password);
-    res.json({data})
+    const body = await userServices.createAccess(fullName, email, password);
+    res.json({body})
   } catch (error) {
     res.status(401).json({ message: error.message, status: false, token: null });
   }

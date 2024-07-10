@@ -13,7 +13,6 @@ const loginMethod = (username) => {
 // authentication for user's login token
 const authenticationToken = async (username, token) => {
     try {
-        console.log(username, token);
         //checking token, include checking expires time
         const decoded = jwt.verify(token, SECRET_KEY);
 

@@ -10,17 +10,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movieticket.R;
-import com.example.movieticket.databinding.FragmentDetailMovieBinding;
 import com.example.movieticket.databinding.MovieItemBinding;
-import com.example.movieticket.models.DisplayMovie;
+import com.example.movieticket.models.MinimumMovie;
 
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private List<DisplayMovie> movies;
+    private List<MinimumMovie> movies;
 
-    public MovieAdapter(List<DisplayMovie> movies) {
+    public MovieAdapter(List<MinimumMovie> movies) {
         this.movies = movies;
     }
 
@@ -51,7 +50,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             movie = bind.moviePoster;
         }
 
-        public void bind(DisplayMovie movies) {
+        public void bind(MinimumMovie movies) {
             String poster = movies.getPoster();
             Glide.with(itemView.getContext())
                     .load(poster)

@@ -1,16 +1,16 @@
 package com.example.movieticket.http;
 
 public class ResponseHTTP<T> {
-    private T data;
+    private T body;
     private String message;
     private boolean status;
 
     public T getBody() {
-        return data;
+        return body;
     }
 
-    public void setBody(T data) {
-        this.data = data;
+    public void setBody(T body) {
+        this.body = body;
     }
 
     public String getMessage() {

@@ -1,11 +1,14 @@
 const { poolPromise } = require("../configs/db");
 const sql = require("mssql");
 
-const getMoviesData = async (page, pageSize) => {
+const getMoviesData = async (page) => {
     try {
         page = Math.max(page, 1);
         const pool = await poolPromise;
-        const offset = (page - 1) * pageSize;
+        const pageSize1 = 10;
+        const pageSize2 = 12;
+        const offset1 = (page - 1) * pageSize1;
+        const offset2 = (page - 1) * pageSize2;
 
         const recommendQuery = `
             SELECT m.movie_id AS id, m.title, m.poster, m.rate, STRING_AGG(g.name, ', ') AS genres
@@ -27,13 +30,13 @@ const getMoviesData = async (page, pageSize) => {
         `;
 
         const recommendResult = await pool.request()
-            .input('offset', sql.Int, offset)
-            .input('pageSize', sql.Int, pageSize)
+            .input('offset', sql.Int, offset1)
+            .input('pageSize', sql.Int, pageSize1)
             .query(recommendQuery);
 
         const displayResult = await pool.request()
-            .input('offset', sql.Int, offset)
-            .input('pageSize', sql.Int, pageSize)
+            .input('offset', sql.Int, offset2)
+            .input('pageSize', sql.Int, pageSize2)
             .query(displayQuery);
 
         const recommendList = recommendResult.recordset.map(row => ({
@@ -60,17 +63,18 @@ const getMoviesData = async (page, pageSize) => {
     }
 }
 
-const getRecommend = async (page, pageSize) => {
+const getRecommend = async (page) => {
     try {
         page = Math.max(page, 1);
         const pool = await poolPromise;
+        const pageSize = 10;
         const offset = (page - 1) * pageSize;
 
         const recommendQuery = `
             SELECT m.movie_id AS id, m.title, m.poster, m.rate, STRING_AGG(g.name, ', ') AS genres
             FROM movies m
             LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id
-            LEFT JOIN genres g ON mg.genre_name = g.name
+            LEFT JOIN genres g ON mg.genre_id = g.name
             GROUP BY m.movie_id, m.title, m.poster, m.rate
             ORDER BY m.movie_id
             OFFSET @offset ROWS
@@ -97,12 +101,15 @@ const getRecommend = async (page, pageSize) => {
     }
 }
 
-const getDisplay = async (page, pageSize) => {
+const getDisplay = async (page) => {
     try {
+        // Ensure page is at least 1
         page = Math.max(page, 1);
         const pool = await poolPromise;
+        const pageSize = 12;
         const offset = (page - 1) * pageSize;
 
+        // Define the SQL query with parameter placeholders
         const displayQuery = `
             SELECT movie_id AS id, title, poster
             FROM movies
@@ -111,11 +118,13 @@ const getDisplay = async (page, pageSize) => {
             FETCH NEXT @pageSize ROWS ONLY;
         `;
 
+        // Execute the query with the offset and pageSize as parameters
         const displayResult = await pool.request()
             .input('offset', sql.Int, offset)
             .input('pageSize', sql.Int, pageSize)
             .query(displayQuery);
 
+        // Map the result to the desired format
         const displayList = displayResult.recordset.map(row => ({
             title: row.title,
             poster: row.poster,
@@ -124,10 +133,12 @@ const getDisplay = async (page, pageSize) => {
 
         return displayList;
     } catch (error) {
-        console.error('Error fetching display movies:', error);
+        console.error('Error fetching display movies:', error + "157");
         throw error;
     }
 }
+
+
 
 const getMovieDetail = async (id, userId) => {
     try {
@@ -147,7 +158,7 @@ const getMovieDetail = async (id, userId) => {
                 -- Genres
                 SELECT STRING_AGG(g.name, ', ') AS genres
                 FROM genres g
-                JOIN movie_genres mg ON g.name = mg.genre_name
+                JOIN movie_genres mg ON g.name = mg.genre_id
                 WHERE mg.movie_id = @movie_id;
 
                 -- Actors
@@ -157,7 +168,7 @@ const getMovieDetail = async (id, userId) => {
 
                 -- User favorite status
                 SELECT COUNT(*) AS is_favorite
-                FROM user_favorites
+                FROM favorites
                 WHERE user_id = @userId AND movie_id = @movie_id;
 
                 -- Reviews

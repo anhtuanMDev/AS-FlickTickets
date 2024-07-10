@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movieticket.R;
+import com.example.movieticket.interfaces.FragmentHomeUtils;
 import com.example.movieticket.models.DisplayMovie;
 
 import java.util.List;
@@ -18,13 +19,12 @@ import java.util.List;
 public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdapter.HomeRecommendViewHolder> {
 
     private List<DisplayMovie> movies;
-    private TextView name, tags;
     private int selectedPosition = -1; // Field to track the selected position
+    private FragmentHomeUtils fragmentHomeUtils; // Add this field
 
-    public HomeRecommendAdapter(List<DisplayMovie> movies, TextView name, TextView tags) {
+    public HomeRecommendAdapter(List<DisplayMovie> movies, FragmentHomeUtils fragmentHomeUtils) {
         this.movies = movies;
-        this.name = name;
-        this.tags = tags;
+        this.fragmentHomeUtils = fragmentHomeUtils; // Initialize the field
     }
 
     @NonNull
@@ -40,7 +40,7 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
     public void onBindViewHolder(@NonNull HomeRecommendViewHolder holder, int position) {
         // Bind data to the views within the ViewHolder
         DisplayMovie recommendation = movies.get(position);
-        holder.bind(recommendation, position == selectedPosition);
+        holder.bind(recommendation, position == selectedPosition, fragmentHomeUtils);
     }
 
     @Override
@@ -53,6 +53,10 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
         selectedPosition = position;
         notifyItemChanged(previousPosition);
         notifyItemChanged(position);
+
+        // Update the TextViews through the interface method
+        DisplayMovie selectedMovie = getMovieAt(position);
+        fragmentHomeUtils.changeRecommendMovie(selectedMovie.getTitle(), selectedMovie.getTags());
     }
 
     public DisplayMovie getMovieAt(int position) {
@@ -79,16 +83,17 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
             });
         }
 
-        public void bind(DisplayMovie recommendation, boolean isSelected) {
+        public void bind(DisplayMovie recommendation, boolean isSelected, FragmentHomeUtils callback) {
             Glide.with(itemView.getContext())
                     .load(recommendation.getPoster())
-                    .placeholder(R.drawable.avatar_base)
-                    .error(R.drawable.banner)
+                    .placeholder(R.drawable.image_pending)
+                    .error(R.drawable.image_onerror)
                     .into(imgPoster);
-            name.setText(recommendation.getTitle());
-            tags.setText(recommendation.getTags());
+            if(isSelected){
+                callback.changeRecommendMovie(recommendation.getTitle(), recommendation.getTags());
 
-            // Adjust the size of the image based
+            }
+            // Adjust the size of the image based on whether it is selected or not
         }
     }
 }

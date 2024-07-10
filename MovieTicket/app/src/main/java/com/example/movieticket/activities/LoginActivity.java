@@ -17,18 +17,14 @@ import com.example.movieticket.R;
 import com.example.movieticket.databinding.ActivityLoginBinding;
 import com.example.movieticket.http.HandleImage;
 import com.example.movieticket.http.ResponseHTTP;
-import com.example.movieticket.http.RetrofitClient;
 import com.example.movieticket.http.ServiceGenerator;
-import com.example.movieticket.http.UserService;
 import com.example.movieticket.models.Constant;
 import com.example.movieticket.models.LoginModel;
 import com.example.movieticket.models.UserModel;
 import com.example.movieticket.utils.ActivityUtils;
 import com.example.movieticket.utils.PreferecnceUtils;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -75,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
 
         // set example login info
-        edtUsername.setText("okla@gmail.com");
+        edtUsername.setText("anhtt676@gmail.com");
         edtPassword.setText("123456789");
 
         btnSignin.setOnClickListener(v -> {
@@ -115,8 +111,7 @@ public class LoginActivity extends AppCompatActivity {
                                 handleImage.convertImageString(avatar);
                             }
                             utils.apply(input);
-
-                            functionUtils.changeActivity(MainActivity.class);
+                            finish();
                         } else {
                             // Handle unsuccessful login (optional)
                             functionUtils.showSnackBar("Login failed", rootView);

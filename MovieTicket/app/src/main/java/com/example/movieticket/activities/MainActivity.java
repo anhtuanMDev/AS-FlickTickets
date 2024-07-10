@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.splashscreen.SplashScreen;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
@@ -12,23 +13,24 @@ import androidx.navigation.ui.NavigationUI;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AnticipateInterpolator;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.movieticket.R;
 import com.example.movieticket.databinding.ActivityMainBinding;
-import com.example.movieticket.interfaces.TokenVerificationCallback;
-import com.example.movieticket.utils.HomeUtils;
+import com.example.movieticket.interfaces.MainActivityUtils;
+import com.example.movieticket.utils.ActivityUtils;
+import com.example.movieticket.utils.MainUtils;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements TokenVerificationCallback {
+public class MainActivity extends AppCompatActivity implements MainActivityUtils {
 
     private static final int HOME_TITLE = R.string.home_title;
     private static final int FAVORITE_TITLE = R.string.favorite;
@@ -40,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
     boolean isLoggedIn = false;
-    private HomeUtils utils;
+    private MainUtils utils;
+    private ActivityUtils funcUtils;
+    private LinearLayout lnrLogout;
+    private TextView name, infor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +83,12 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
 
         // Setup the listener for drawer
         drawerLayout = binding.drawerLayout;
-        utils = new HomeUtils(this);
-
+        utils = new MainUtils(this);
+        funcUtils = new ActivityUtils(this);
+        lnrLogout = binding.logout;
+        View headerView = binding.navView.getHeaderView(0);
+        name = headerView.findViewById(R.id.nav_header_name);
+        infor = headerView.findViewById(R.id.nav_header_email);
         utils.verifyToken(binding.getRoot(), this);
     }
 
@@ -127,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
                         Objects.requireNonNull(getSupportActionBar()).setTitle(CART_TITLE);
                         break;
                     default:
-                        Log.d("MainActivity Error", "Something has happen, the id is " + id);
+                        Log.d("MainActivity Error", "Something has happened, the id is " + id);
                         return false; // Return false if no case matches
                 }
                 return true;
@@ -136,8 +145,51 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
                 return false;
             }
         });
+
+        // Set up the listener for Drawer Navigation View
+        binding.navView.setNavigationItemSelectedListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case 2131296665:
+                    // Handle profile item click
+                    if (!isLoggedIn) {
+                        funcUtils.changeActivity(LoginActivity.class);
+                    } else {
+                        funcUtils.changeActivity(ProfileActivity.class);
+                    }
+                    break;
+                case 2131296645:
+                    // Handle order item click
+                    if (!isLoggedIn) {
+                        funcUtils.changeActivity(LoginActivity.class);
+                    } else {
+                        funcUtils.changeActivity(HistoryActivity.class);
+                    }
+                    break;
+                default:
+                    Log.d("MainActivity Error", "Unhandled navigation drawer item: " + id);
+                    return false; // Return false if no case matches
+            }
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
+        });
+
+        // Setup the listener for the logout button
+        utils.changeDrawerContent(name, infor);
+        lnrLogout.setOnClickListener(v->{
+            utils.logout();
+            drawerLayout.closeDrawer(GravityCompat.START);
+            funcUtils.restartActivity(MainActivity.class);
+            finish();
+        });
+
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        utils.verifyToken(binding.getRoot(), this);
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (drawerToggle.onOptionsItemSelected(item)) {
@@ -147,10 +199,9 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
         int id = item.getItemId();
         if (id == R.id.nav_profile) {
             if (!isLoggedIn) {
-                Intent i = new Intent(this, LoginActivity.class);
-                startActivity(i);
+                funcUtils.changeActivity(LoginActivity.class);
             } else {
-                Toast.makeText(this, "Already Login", Toast.LENGTH_SHORT).show();
+                funcUtils.changeActivity(ProfileActivity.class);
             }
             return true;
         }
@@ -160,24 +211,22 @@ public class MainActivity extends AppCompatActivity implements TokenVerification
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem userAvatarMenuItem = menu.findItem(R.id.nav_profile);
+        updateToolbarIcon(menu);
+        return true;
+    }
 
+    private void updateToolbarIcon(Menu menu) {
+        MenuItem userAvatarMenuItem = menu.findItem(R.id.nav_profile);
         if (isLoggedIn) {
             userAvatarMenuItem.setIcon(R.drawable.avatar_base);
         } else {
-            // Set a default icon or handle login option
             userAvatarMenuItem.setIcon(R.drawable.avatar_pre);
         }
-
-        return true;
     }
 
     @Override
     public void onVerificationComplete(boolean isSuccess) {
         isLoggedIn = isSuccess;
-    }
-
-    public void onTesting(){
-        Log.d("login", "onTesting: ");
+        invalidateOptionsMenu();
     }
 }

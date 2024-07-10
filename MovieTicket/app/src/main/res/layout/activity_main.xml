@@ -5,16 +5,16 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/charcoal"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    android:background="@color/charcoal">
+    tools:openDrawer="start">
 
     <include
         android:id="@+id/main_content"
         layout="@layout/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
@@ -23,8 +23,28 @@
         android:layout_gravity="start"
         android:background="@color/gunmetal"
         app:headerLayout="@layout/nav_header_drawer"
-        app:itemTextColor="@color/white"
         app:itemIconTint="@color/white"
-        app:menu="@menu/nav_drawer_menu" />
+        app:itemTextColor="@color/white"
+        app:menu="@menu/nav_drawer_menu">
+
+        <LinearLayout
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="15dp"
+                android:gravity="start"
+                android:text="@string/logout"
+                android:textColor="@color/white"
+                app:drawableStartCompat="@drawable/wallet"
+                app:drawableTint="@color/white" />
+        </LinearLayout>
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

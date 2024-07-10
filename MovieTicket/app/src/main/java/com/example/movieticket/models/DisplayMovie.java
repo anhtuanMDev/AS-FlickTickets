@@ -1,26 +1,26 @@
 package com.example.movieticket.models;
 
 public class DisplayMovie {
+    private String id;
     private String title;
     private String poster;
     private int rate;
-    private String tags;
-    private String id;
+    private String genres;
 
-    public DisplayMovie(String title, String poster, int rate, String id, String tags) {
+    public DisplayMovie(String title, String poster, int rate, String id, String genres) {
         this.title = title;
         this.poster = poster;
         this.rate = rate;
         this.id = id;
-        this.tags = tags;
+        this.genres = genres;
     }
 
     public String getTags() {
-        return tags;
+        return genres;
     }
 
-    public void setTags(String tags) {
-        this.tags = tags;
+    public void setTags(String genres) {
+        this.genres = genres;
     }
 
     public String getId() {
