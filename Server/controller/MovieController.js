@@ -36,9 +36,9 @@ async function getDetail(req, res) {
     const { id, userId } = req.params;
     try {
         const body = await movieServices.getMovieDetail(parseInt(id), parseInt(userId));
-        res.status(200).json(body);
+        res.json({body, status: true, message: "Getting movie detail successfully"});
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        res.status(500).json({status: false, error: error.message });
     }
 }
 

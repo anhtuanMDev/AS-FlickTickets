@@ -20,4 +20,16 @@ router.delete('/deleteMovie/:movieId', adminControllers.deleteMovie);
 // Delete review route
 router.delete('/deleteReview/:reviewId', adminControllers.deleteReview);
 
+router.get('/', (req, res) => {
+    res.render('home', {
+      title: 'Admin Dashboard'
+    });
+  });
+
+router.get('/login-website', (req,res) => {
+  res.render('auth_page', {
+    title: 'Login Authentication'
+  })
+})
+
 module.exports = router;

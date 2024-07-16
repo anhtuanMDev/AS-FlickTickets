@@ -33,8 +33,41 @@ const verifyToken = async(req, res)=>{
   }
 }
 
+const getFavoriteList = async(req,res) =>{
+  try {
+    const {userId} = req.params;
+    const body = await userServices.getFavoriteList(parseInt(userId));
+    res.json({body, message: "Get favorite success", status: true});
+  } catch (error) {
+    res.json({body: null, message: "Get favorite fail", status: false});
+  }
+}
+
+const addFavorite = async(req,res) => {
+  try {
+    const {userId, movieId} = req.body;
+    const body = await userServices.addFavorite(parseInt(userId),parseInt(movieId));
+    res.json(body);
+  } catch (error) {
+    res.json(body);
+  }
+}
+
+const deleteFavorite = async(req,res) =>{
+  try {
+    const {userId, movieId} = req.param;
+    const body = await userServices.deleteFavorite(parseInt(userId),parseInt(movieId));
+    res.json(body);
+  } catch (error) {
+    res.json(body);
+  }
+}
+
 module.exports = {
   login,
   register,
-  verifyToken
+  verifyToken,
+  getFavoriteList,
+  addFavorite,
+  deleteFavorite
 };

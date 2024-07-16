@@ -1,0 +1,31 @@
+
+/* style header logout */
+
+#header_logout nav {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 0 20px;
+}
+#header_logout nav #loginin_btn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    background: var(--acent);
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+nav #loginin_btn img {
+    width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: 50%;
+    border-color: var(--acent);
+}
+
+nav #loginin_btn p {
+    font-size: medium;
+    font-weight: bold;
+    margin: 0;
+}

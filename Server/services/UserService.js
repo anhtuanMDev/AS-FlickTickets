@@ -56,7 +56,7 @@ const authentication = async (username, password) => {
         }
 
         const token = jwt.sign({ username: user.username }, SECRET_KEY, { expiresIn: '3d' });
-        const data = {token, username, password, role: user.role, avatar: user.avatar, name: user.name, id: user.id};
+        const data = { token, username, password, role: user.role, avatar: user.avatar, name: user.name, id: user.id };
 
         return data;
 
@@ -73,7 +73,7 @@ const createAccess = async (fullName, email, password) => {
 
         const pool = await poolPromise;
         const userlist = await pool.request().input('email', sql.VarChar, email).query("SELECT * FROM users WHERE email = @email");
-        if(userlist.recordset.length != 0){
+        if (userlist.recordset.length != 0) {
             throw new Error("Sorry, your email has been sign up");
         }
         await pool.request()
@@ -86,7 +86,7 @@ const createAccess = async (fullName, email, password) => {
         return { status: true, message: 'User registered successfully' };
 
     } catch (error) {
-        console.log("userService error: ",error);
+        console.log("userService error: ", error);
         throw error;
     }
 }
@@ -97,10 +97,20 @@ const getFavoriteList = async (userId) => {
         const pool = await poolPromise;
 
         const query = `
-            SELECT m.movie_id AS id, m.title, m.poster, m.release_date, m.duration, m.rate
+            SELECT 
+                m.movie_id AS id, 
+                m.title, 
+                m.poster, 
+                m.release_date, 
+                m.duration, 
+                m.rate,
+                STRING_AGG(g.name, ', ') AS tags
             FROM favorites f
             JOIN movies m ON f.movie_id = m.movie_id
-            WHERE f.user_id = @userId;
+            LEFT JOIN movie_genres mg ON m.movie_id = mg.movie_id
+            LEFT JOIN genres g ON mg.genre_id = g.name
+            WHERE f.user_id = @userId
+            GROUP BY m.movie_id, m.title, m.poster, m.release_date, m.duration, m.rate;
         `;
 
         const result = await pool.request()
@@ -114,10 +124,27 @@ const getFavoriteList = async (userId) => {
     }
 };
 
+
 // Add movie into your favorite list
 const addFavorite = async (userId, movieId) => {
     try {
         const pool = await poolPromise;
+
+        const checkQuery = `
+            SELECT m.movie_id AS id, m.title, m.poster, m.release_date, m.duration, m.rate
+            FROM favorites f
+            JOIN movies m ON f.movie_id = m.movie_id
+            WHERE f.user_id = @userId AND f.movie_id = @movieId;
+        `;
+
+        const result = await pool.request()
+            .input('userId', sql.Int, userId)
+            .input('movieId', sql.Int, movieId)
+            .query(checkQuery);
+
+        if (result.recordset[0]) {
+            return { status: false, message: 'Movie has already been added to favorites' }
+        }
 
         const query = `
             INSERT INTO favorites (user_id, movie_id)
