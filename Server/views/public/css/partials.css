@@ -1,31 +1,251 @@
 
-/* style header logout */
-
-#header_logout nav {
+header nav ul {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    list-style: none;
+    padding: 5px 20px 2px;
 }
-#header_logout nav #loginin_btn {
+
+header ul li {
+    margin: 0;
+}
+
+header ul li:first-child {
+    margin-right: 20px;
+}
+
+header ul li:nth-child(2) {
+    margin-right: auto;
+}
+
+header ul li:last-child img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+header ul li:nth-child(3),
+header ul li:nth-child(4) {
+    margin-right: 20px;
+}
+
+header ul span {
     display: flex;
     align-items: center;
+    position: relative;
     cursor: pointer;
-    background: var(--acent);
-    border-radius: 10px;
-    padding: 5px 10px;
 }
 
-nav #loginin_btn img {
+header li p {
+    margin-right: 5px;
+}
+
+header li div#menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary);
+    margin-right: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#menu-toggle div {
     width: 20px;
     height: 20px;
-    padding: 0 5px;
-    border-radius: 50%;
-    border-color: var(--acent);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
 }
 
-nav #loginin_btn p {
-    font-size: medium;
-    font-weight: bold;
-    margin: 0;
+header #menu-toggle span {
+    width: 50%;
+    height: 2.5px;
+    background-color: var(--main-bg-color);
+    border-radius: 2px;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    transition: .5s;
+}
+
+#menu-toggle span:nth-child(1) {
+    width: 100%;
+    top: 25%;
+    left: 50%;
+}
+
+#menu-toggle span:nth-child(3) {
+    top: 75%;
+    width: 25%;
+    left: 15%;
+}
+
+#menu-toggle.active span:nth-child(1) {
+    left: 30%;
+    top: 30%;
+    width: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+#menu-toggle.active span:nth-child(2) {
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 100%;
+    left: 50%;
+}
+
+#menu-toggle.active span:nth-child(3) {
+    left: 70%;
+    top: 70%;
+    width: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+header ul input {
+    background-color: var(--tertiary-color);
+    border: none;
+    color: var(--text-color);
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    outline: none;
+}
+
+header ul button {
+    width: 30px;
+    height: 30px;
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header li #search {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    right: 5px;
+    position: absolute;
+}
+
+header li #input-search {
+    padding-right: 25px;
+}
+
+/* End style header */
+
+
+/* Style sidebar */
+
+aside {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    background-color: var(--main-bg-color);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 10px;
+}
+
+aside a {
+    width: 250px;
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text-color);
+    display: block;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+aside a:hover {
+    background-color: var(--primary);
+    transition: .5s ease-in;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: var(--shade);
+}
+
+aside a i {
+    width: 25px;
+    font-weight: 500;
+}
+
+/* End style header */
+
+/* Style breadcrumb */
+
+ul.breadcrumb {
+    padding: 10px 16px;
+    list-style: none;
+}
+
+ul.breadcrumb li {
+    display: inline;
+    font-size: 18px;
+}
+
+ul.breadcrumb li+li:before {
+    padding: 8px;
+    color: var(--shade);
+    content: "/\00a0";
+}
+
+ul.breadcrumb li a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+ul.breadcrumb li a:hover {
+    color: var(--acent);
+    text-decoration: none;
+}
+
+/* End style breadcrumb */
+
+/* Style footer */
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-links {
+    margin: 10px 0;
+}
+
+.footer-links a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+.footer-socials {
+    margin-top: 10px;
+}
+
+.footer-socials a {
+    margin: 0 10px;
+}
+
+.footer-socials img {
+    width: 24px;
+    height: 24px;
 }

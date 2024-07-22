@@ -1,0 +1,14 @@
+.table {
+    --bs-table-bg: rgba(0, 0, 0, 0);
+    --bs-table-striped-color: #6C7293;
+    --bs-table-striped-bg: rgba(0, 0, 0, 0.05);
+    --bs-table-active-color: #6C7293;
+    --bs-table-active-bg: rgba(0, 0, 0, 0.1);
+    --bs-table-hover-color: var(--shade);
+    --bs-table-color:  var(--text-color);
+    --bs-table-hover-bg: var(--aleternative-primary);
+    width: 100%;
+    border-color: var(--primary) !important;
+    margin-bottom: 1rem;
+    vertical-align: top;
+}

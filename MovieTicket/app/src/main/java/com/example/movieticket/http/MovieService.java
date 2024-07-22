@@ -1,8 +1,8 @@
 package com.example.movieticket.http;
 
-import com.example.movieticket.models.DetailMovie;
 import com.example.movieticket.models.DisplayMovie;
 import com.example.movieticket.models.MinimumMovie;
+import com.example.movieticket.models.MovieDetail;
 import com.example.movieticket.models.MovieModel;
 
 import java.util.List;
@@ -23,6 +23,6 @@ public interface MovieService {
     Call<ResponseHTTP<List<MinimumMovie>>> getDisplay(@Query("page") int page);
 
     @GET("movie/detail/{id}/{userId}")
-    Call<ResponseHTTP<DetailMovie>> getMovieDetail(@Path("id") int id, @Path("userId") int userId);
+    Call<ResponseHTTP<MovieDetail>> getMovieDetail(@Path("id") int id, @Path("userId") int userId);
 
 }

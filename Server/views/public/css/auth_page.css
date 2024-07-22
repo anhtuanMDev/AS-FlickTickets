@@ -1,4 +1,4 @@
-section {
+section#auth_page {
     display: flex;
     justify-content: center;
     align-items: center;

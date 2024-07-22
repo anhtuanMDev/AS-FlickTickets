@@ -1,0 +1,46 @@
+{{> header}}
+
+<div class="container-fluid position-relative d-flex p-0">
+    {{!-- <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End --> --}}
+
+    {{> sidebar linkPath=linkPath port=port}}
+
+    <main class="container-fluid">
+        <ul class="bg-secondary rounded breadcrumb mx-4 px-4">
+            <li class="bc_item">Movie</li>
+        </ul>
+
+        <div class="my-5 px-4 mx-4" id="movie-search-bar">
+            <div class="w-75 position-relative rounded mx-auto" id="search-bar">
+                <input type="text" class="w-100 ps-3 pe-5 py-1 rounded">
+                <button class="position-absolute end-0 h-100">
+                    <i class="fa fa-search px-2 py-1 bg-transparent "></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="mx-4 px-4" id="movie-display">
+
+        </div>
+
+        <a href="/admin/movie/create" class="create-movie">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </a>
+    </main>
+
+    <script>
+        var linkPath = "{{linkPath}}";
+        var port = "{{port}}";
+    </script>
+    <script src="/js/partials.js"></script>
+    <script src="/js/movie.js"></script>
+</div>
+
+{{> footer}}

@@ -1,9 +1,38 @@
 <header>
-  <nav>
+  <nav  id="navbar">
     <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/profile">Profile</a></li>
-      <li><a href="/logout">Logout</a></li>
+      <li>
+        <span><img src="/assets/top_logo.svg" alt="Top logo error">
+          <h4>Flick Admin</h4>
+        </span>
+      </li>
+      <li>
+        <div id="menu-toggle" class="menu" onclick="toggleNav()">
+          <div>
+            <span class="line-1"></span>
+            <span class="line-2"></span>
+            <span class="line-3"></span>
+          </div>
+        </div>
+      </li>
+      <li>
+        <span>
+          <p>Message</p>
+          <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </span>
+      </li>
+      <li><span>
+          <p>Request</p>
+          <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </span>
+      </li>
+      <li>
+        <span>
+          <img src="/assets/avatar.svg" alt="Avatar error">
+          <p>Username</p>
+          <i class="fa fa-caret-down" aria-hidden="true"></i>
+        </span>
+      </li>
     </ul>
   </nav>
 </header>

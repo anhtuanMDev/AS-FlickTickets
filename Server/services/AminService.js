@@ -174,6 +174,40 @@ const deleteReview = async (reviewId) => {
     }
 };
 
+// Get list of movies
+const getMovieList = async () => {
+    try {
+        const pool = await poolPromise;
+
+        const query = `
+            SELECT movie_id, title, poster, banner, descr, release_date, duration, rate
+            FROM movies ORDER BY release_date, rate, duration;
+        `;
+
+        const movieListResult = await pool.request().query(query);
+
+        return movieListResult.recordset;
+    } catch (error) {
+        console.error('Error retrieving movie list:', error);
+        throw error;
+    }
+};
+
+// Get list of movie tag
+const getAllTag = async() => {
+    try {
+        const pool = await poolPromise;
+        const query = `
+        SELECT name from genres`
+        const genreResult = await pool.request().query(query);
+
+        return genreResult.recordset;
+    } catch (error) {
+        console.error('Error retrieving genres list:', error);
+        throw error;
+    }
+}
+
 module.exports = {
     authentication,
     registerAdmin,
@@ -181,5 +215,7 @@ module.exports = {
     addMovie,
     deleteMovie,
     deleteReview,
-    authenticationToken
-}
+    authenticationToken,
+    getMovieList,
+    getAllTag
+};

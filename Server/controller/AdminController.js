@@ -34,6 +34,15 @@ async function changeUserRole(req, res) {
     }
 }
 
+async function getMovieList(req, res) {
+    try {
+        const result = await adminServices.getMovieList();
+        res.json({ data: result, message: "Get movie list successfully", status: true });
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: false });
+    }
+}
+
 async function addMovie(req, res) {
     const { title, poster, releaseDate, duration, rate } = req.body;
 
@@ -67,11 +76,22 @@ async function deleteReview(req, res) {
     }
 }
 
+async function getGenres (req,res) {
+    try {
+        const result = await adminServices.getAllTag();
+        res.json({data:result, message: "Get movie genres successfully", status: true});
+    } catch (error) {
+        res.status(400).json({ message: error.message, status: false });
+    }
+}
+
 module.exports = {
     login,
     register,
     changeUserRole,
     addMovie,
     deleteMovie,
-    deleteReview
+    deleteReview,
+    getMovieList,
+    getGenres
 };

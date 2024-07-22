@@ -1,6 +1,8 @@
 package com.example.movieticket.adapters;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -11,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movieticket.R;
+import com.example.movieticket.activities.DetailActivity;
 import com.example.movieticket.interfaces.FragmentHomeUtils;
+import com.example.movieticket.models.Constant;
 import com.example.movieticket.models.DisplayMovie;
 
 import java.util.List;
@@ -66,19 +70,45 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
     public class HomeRecommendViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imgPoster;
+        private boolean isScrolling = false;
 
         public HomeRecommendViewHolder(View itemView) {
             super(itemView);
             // Initialize your views here using findViewById
             imgPoster = itemView.findViewById(R.id.recommend_poster);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnTouchListener(new View.OnTouchListener() {
+                private float startX;
+                private float startY;
+
                 @Override
-                public void onClick(View v) {
-                    int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION) {
-                        setSelectedPosition(position);
+                public boolean onTouch(View v, MotionEvent event) {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            startX = event.getX();
+                            startY = event.getY();
+                            isScrolling = false;
+                            return true;
+                        case MotionEvent.ACTION_MOVE:
+                            float deltaX = Math.abs(event.getX() - startX);
+                            float deltaY = Math.abs(event.getY() - startY);
+                            if (deltaX > 10 || deltaY > 10) {
+                                isScrolling = true;
+                            }
+                            return true;
+                        case MotionEvent.ACTION_UP:
+                            if (!isScrolling) {
+                                int position = getAdapterPosition();
+                                if (position != RecyclerView.NO_POSITION) {
+                                    // Change activity with extra id
+                                    Intent intent = new Intent(itemView.getContext(), DetailActivity.class);
+                                    intent.putExtra(Constant.sp_movieId, movies.get(position).getId());
+                                    itemView.getContext().startActivity(intent);
+                                }
+                            }
+                            return true;
                     }
+                    return false;
                 }
             });
         }
@@ -91,7 +121,6 @@ public class HomeRecommendAdapter extends RecyclerView.Adapter<HomeRecommendAdap
                     .into(imgPoster);
             if(isSelected){
                 callback.changeRecommendMovie(recommendation.getTitle(), recommendation.getTags());
-
             }
             // Adjust the size of the image based on whether it is selected or not
         }

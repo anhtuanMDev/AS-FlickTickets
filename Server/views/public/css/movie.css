@@ -1,0 +1,420 @@
+#search-bar input {
+  height: 40px;
+}
+
+#movie-search-bar button {
+  background-color: transparent;
+  box-shadow: none;
+  border-width: 0;
+}
+
+#movie-display {
+  display: flex;
+  flex-wrap: wrap;
+  transition: all .5s;
+}
+
+#movie-display .card {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease-out;
+  /* Add smooth transition */
+}
+
+#movie-display .card:hover {
+  transform: rotateY(30deg) rotateX(10deg);
+}
+
+/* Individual components within the card */
+#movie-display .poster,
+#movie-display .rating,
+#movie-display .card .details h1.name,
+#movie-display .card .details h2.release-date,
+#movie-display .card .details p.desc,
+#movie-display .card .details p.duration {
+  transition: transform 0.3s ease-out, scale 0.3s ease-out;
+  /* Add smooth transition */
+}
+
+@keyframes slide-rotate-ver-left {
+  0% {
+    transform: rotateY(0) rotateX(0);
+    /* Start from no rotation */
+  }
+
+  100% {
+    transform: rotateY(30deg) rotateX(10deg);
+    /* End at your hover rotation */
+  }
+}
+
+#movie-display .card .banner .rating:hover,
+#movie-display .card .poster:hover,
+#movie-display .card .details h1.name:hover,
+#movie-display .card .details h2.release-date:hover,
+#movie-display .card .details p.desc:hover,
+#movie-display .card .details p.duration:hover {
+  transform: translateX(10px) scale(1.1);
+}
+
+#movie-display .banner {
+  position: relative;
+  height: 150px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+#movie-display .banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#movie-display .poster {
+  position: absolute;
+  top: 20px;
+  left: 5%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 20px 1px #666;
+}
+
+#movie-display .poster img {
+  width: 100px;
+  height: 150px;
+  object-fit: cover;
+}
+
+#movie-display .details {
+  padding: 20px;
+}
+
+#movie-display .details h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: var(--shade);
+}
+
+#movie-display .details h2 {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+#movie-display .rating {
+  position: absolute;
+  bottom: -20px;
+  right: 20px;
+  color: var(--text-color);
+  border-radius: 50%;
+  background-color: var(--main-bg-color);
+}
+
+#movie-display .rating .circle {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: 5px;
+  padding: 3px;
+  border: 3px solid white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 30px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: bold;
+}
+
+#movie-display .desc {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+#movie-display .duration {
+  font-size: 14px;
+  color: #999;
+}
+
+a.create-movie {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 50px;
+  right: 100px;
+  display: flex;
+  justify-content: center;
+  text-decoration: none;
+  align-items: center;
+  color: var(--text-color);
+  background-color: var(--quaternary-color);
+  z-index: 10000;
+}
+
+/* Create movie webview */
+#movie-insert {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  grid-template-columns: 55% 40%;
+  grid-gap: 5%;
+}
+
+#movie-insert img {
+  border-bottom-right-radius: 10px;
+}
+
+#movie-insert .banner-group {
+  position: relative;
+}
+
+#movie-insert .banner-group .banner {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+#movie-insert .media-group {
+  position: absolute;
+  top: 15px;
+  left: 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  padding-left: 10px;
+  width: 100%;
+  gap: 20px;
+}
+
+#movie-insert .media-group .media-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+#movie-insert .media-group button {
+  background: var(--text-color);
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-group button img {
+  width: 20px;
+  height: 20px;
+  object-fit: cover;
+}
+
+.media-group .movie-name {
+  background: transparent;
+  font-size: 18px;
+  padding: 5px 8px;
+  color: var(--text-color);
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  text-shadow: 1px 1px 2px black;
+}
+
+.banner-group #descr {
+  position: absolute;
+  top: 70px;
+  left: 15px;
+  width: 95%;
+  height: 100px;
+  padding-left: 5px;
+  padding-right: 10px;
+  background: transparent;
+  border: none;
+  resize: none;
+  color: var(--text-color);
+  text-shadow: 1px 1px 2px black;
+}
+
+.media-group .movie-name::placeholder,
+.banner-group #descr::placeholder {
+  color: var(--quaternary-color);
+  text-shadow: 1px 1px 1px white;
+}
+
+.banner-group .poster {
+  position: absolute;
+  top: 190px;
+  left: 10px;
+  width: 135px;
+  height: 180px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+#movie-insert .banner-group form {
+  margin: 30px 0;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+#movie-insert form {
+  width: 100%;
+  height: 100%;
+  gap: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+#movie-insert form .input-infor {
+  width: 100%;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#movie-insert form input {
+  width: 100%;
+  padding: 10px 15px;
+  border-radius: 0;
+  border: none;
+}
+
+#movie-insert form .buttons {
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  width: 100%;
+  gap: 15px;
+}
+
+/* Additional CSS for full-width date input and select */
+#movie-insert .form-group.input-group,
+#movie-insert .input-group.mb-3 {
+  width: 100%;
+}
+
+#movie-insert .form-group.input-group input[type="date"],
+#movie-insert .input-group.mb-3 select {
+  width: 100%;
+}
+
+#movie-insert .input-group img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 10px 0 0 10px;
+}
+
+#movie-insert .input-group span.input-group-text {
+  cursor: pointer;
+}
+
+/* Style for the cast list items in the actor holder */
+
+#actor-holder {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+#actor-holder li {
+  list-style: none;
+  perspective: 1000px;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#actor-holder .cast-container {
+  width: 70px;
+  height: 90px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.6s;
+}
+
+#actor-holder li:hover .cast-container {
+  transform: rotateY(180deg);
+}
+
+#actor-holder .face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#actor-holder .back {
+  transform: rotateY(180deg);
+}
+
+#actor-holder .face img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+#actor-holder .face p {
+  margin-top: 5px;
+  font-size: 14px;
+  text-align: center;
+  color: var(--text-color);
+}
+
+#selected-holder {
+  width: 100%;
+  height: 100px;
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  column-gap: 5px;
+  row-gap: 5px;
+  padding: 0;
+}
+
+#selected-holder li {
+  height: fit-content;
+}
+
+#selected-holder .tag-container {
+  position: relative;
+  display: flex;
+  background: var(--text-color);
+  border-radius: 5px;
+  overflow: hidden;
+  padding: 2px 25px 2px 10px; 
+}
+
+#selected-holder .tag-container p {
+  color: var(--main-bg-color);
+}
+
+#selected-holder .tag-container button {
+  position: absolute;
+  right: 5px;
+  background: transparent;
+  border: none;
+}

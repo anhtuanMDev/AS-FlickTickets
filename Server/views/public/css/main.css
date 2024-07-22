@@ -4,7 +4,38 @@
     box-sizing: border-box;
 }
 
-body {
-    background-color: var(--text-color);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    margin: 0;
     color: var(--text-color);
+}
+
+body {
+    background-color: var(--main-bg-color);
+    color: var(--text-color);
+}
+
+main {
+    transition: margin-left .5s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+
+input[type="date"] {
+    background-image: url("../assets//cloud-lightning.svg");
+    background-position: right 10px center;
+    background-size: 20px 20px;
+    background-repeat: no-repeat;
+    padding-right: 30px;
+}
+
+input[type="file"] {
+    display: none;
 }

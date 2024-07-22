@@ -1,6 +1,7 @@
 package com.example.movieticket.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.movieticket.R;
+import com.example.movieticket.activities.DetailActivity;
 import com.example.movieticket.databinding.AboutMovieItemBinding;
+import com.example.movieticket.models.Constant;
 import com.example.movieticket.models.DisplayMovie;
 import com.example.movieticket.models.TicketMovie;
 
@@ -36,6 +39,11 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     @Override
     public void onBindViewHolder(@NonNull FavoriteAdapter.FavoriteViewHolder holder, int position) {
         holder.bind(movies.get(position));
+        holder.itemView.setOnClickListener(v-> {
+            Intent intent = new Intent(v.getContext(), DetailActivity.class);
+            intent.putExtra(Constant.sp_movieId, movies.get(position).getId() + "");
+            v.getContext().startActivity(intent);
+        });
     }
 
     @Override
@@ -46,14 +54,15 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
     public static class FavoriteViewHolder extends RecyclerView.ViewHolder {
         private AboutMovieItemBinding bind;
         ImageView imgPoster;
-        TextView txtName, txtTag, txtRelease, txtDuration;
+        TextView txtName, txtTag, txtRelease, txtDuration, txtRate;
         public FavoriteViewHolder(@NonNull View itemView) {
             super(itemView);
             this.bind = AboutMovieItemBinding.bind(itemView);
-            imgPoster = bind.abooutMoviePoster;
-            txtName = bind.abooutMovieName;
+            imgPoster = bind.aboutMoviePoster;
+            txtName = bind.aboutMovieName;
             txtTag = bind.aboutMovieTag;
             txtRelease = bind.aboutMovieRelease;
+            txtRate = bind.aboutMovieRate;
             txtDuration = bind.aboutMovieDuration;
         }
 
@@ -61,16 +70,18 @@ public class FavoriteAdapter extends RecyclerView.Adapter<FavoriteAdapter.Favori
             String poster = movie.getPoster();
             String name = movie.getTitle();
             String tag = movie.getTags();
-            String release = movie.getRelease();
-            String duration = movie.getDuration();
+            String release = movie.getRelease_date();
+            int rate = movie.getRate();
+            int duration = movie.getDuration();
 
             Glide.with(itemView.getContext())
                     .load(poster)
                     .into(imgPoster);
             txtName.setText(name);
+            txtRate.setText(rate + "");
             txtTag.setText(tag);
-            txtRelease.setText(release);
-            txtDuration.setText(duration);
+            txtRelease.setText(release.substring(0,4));
+            txtDuration.setText(duration + " minutes");
         }
     }
 

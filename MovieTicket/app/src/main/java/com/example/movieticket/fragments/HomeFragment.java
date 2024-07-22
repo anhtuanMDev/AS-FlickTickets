@@ -1,5 +1,6 @@
 package com.example.movieticket.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
-import com.example.movieticket.FakeData;
 import com.example.movieticket.R;
 import com.example.movieticket.adapters.HomeRecommendAdapter;
 import com.example.movieticket.adapters.MovieAdapter;
@@ -35,8 +35,6 @@ import com.example.movieticket.utils.MainUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import kotlin.collections.ArrayDeque;
 
 public class HomeFragment extends Fragment implements FragmentHomeUtils{
 
@@ -81,6 +79,7 @@ public class HomeFragment extends Fragment implements FragmentHomeUtils{
         return bind.getRoot();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

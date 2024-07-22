@@ -51,6 +51,10 @@ public class MainUtils {
                 String token = preferences.getString(Constant.sp_token, "");
                 String username = preferences.getString(Constant.sp_username, "");
 
+                if(token.isEmpty() || username.isEmpty()){
+                    return;
+                }
+
                 VerfiyToken verifyInfo = new VerfiyToken(token, username);
 
                 ServiceGenerator.createUserService(context)

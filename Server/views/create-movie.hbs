@@ -1,0 +1,101 @@
+{{> header}}
+
+<div class="container-fluid position-relative d-flex p-0">
+    {{!-- <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End --> --}}
+
+    {{> sidebar linkPath=linkPath port=port}}
+
+    <main class="container-fluid">
+        <input type="file" id="upload-banner" multiple="false">
+        <input type="file" id="upload-poster" multiple="false">
+        <input type="file" id="upload-actor" multiple="false">
+        <input type="file" id="upload-character" multiple="false">
+
+        <div id="movie-insert" class="container-fluid mx-2 my-4">
+            <div class="banner-group">
+                <img id="banner-img" class="banner" src="https://picsum.photos/800/150" alt="Banner Error">
+                <div class="media-group">
+                    <input type="text" class="movie-name" placeholder="Movie's Name">
+                    <div class="media-buttons">
+                        <button class="button" onclick="selectBanner()"><img src="/assets/subtitle.svg" alt=""></button>
+                        <button class="button" onclick="selectPoster()"><img src="/assets/gallery.svg" alt=""></button>
+                    </div>
+                </div>
+                <textarea name="description" id="descr" placeholder="Movie's Description"></textarea>
+                <img id="poster-img" src="https://picsum.photos/200/300" class="poster" alt="Poster error">
+                <form>
+                    <div class="form-group input-group">
+                        <input type="date" id="movieDate" placeholder="dd-mm-YYYY">
+                    </div>
+
+                    <div class="input-group">
+                        <select class="custom-select rounded" id="genres-select"
+                             style="width: 100%; padding: 10px 15px;">
+                            <option selected disabled value="">Select the movie's genres</option>
+                        </select>
+                    </div>
+                </form>
+
+                <ul id="selected-holder"></ul>
+
+            </div>
+
+
+            <form>
+                <div class="input-infor">
+                    <div class="input-group" style="flex-wrap: nowrap;">
+                        <input type="number" class="form-control" placeholder="Movie's base Rate" min="0" max="100"
+                            step="10" style="border-radius: 10px 0 0 10px;" aria-label="Movie's base Rate"
+                            aria-describedby="basic-addon2">
+                        <span class="input-group-text bg-light" id="basic-addon2">0% - 100%</span>
+                    </div>
+                    <div class="input-group" style="flex-wrap: nowrap;">
+                        <input type="number" class="form-control" placeholder="Movie's Duration" min="20" max="99999"
+                            step="10" style="border-radius: 10px 0 0 10px;" aria-label="Movie's Duration"
+                            aria-describedby="basic-addon2">
+                        <span class="input-group-text bg-light" id="basic-addon2">Minutes</span>
+                    </div>
+
+                    <div class="input-group" style="flex-wrap: nowrap;">
+                        <img src="https://picsum.photos/200/300" id="actor-avatar" alt="Poster error">
+                        <input type="text" class="form-control" placeholder="Movie's Actor's Name"
+                            aria-label="Movie's Actor's Name">
+                        <span class="input-group-text bg-light" id="add-actor" onclick="triggerActorInput()">Add Image</span>
+                    </div>
+                    <div class="input-group" style="flex-wrap: nowrap;">
+                        <img src="https://picsum.photos/200/300" id="character-avatar" alt="Poster error">
+                        <input type="text" class="form-control" placeholder="Movie's Character's Name"
+                            aria-label="Movie's Character's Name">
+                        <span class="input-group-text bg-light" id="add-character" onclick="triggerCharacterInput()">Add Image</span>
+                    </div>
+                    <button id="add-cast">Add Cast</button>
+                </div>
+
+                <ul id="actor-holder">
+
+                </ul>
+
+                <div class="form-group buttons">
+                    <button type="reset" class="btn btn-warning">Reset</button>
+                    <button type="button" class="btn btn-primary">Confirm</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        var linkPath = "{{linkPath}}";
+        var port = "{{port}}";
+    </script>
+    <script src="/js/partials.js"></script>
+    <script src="/js/create-movie.js"></script>
+</div>
+
+{{> footer}}

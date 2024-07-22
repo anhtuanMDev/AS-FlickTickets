@@ -1,17 +1,8 @@
 package com.example.movieticket.http;
 
-public class ResponseHTTP<T> {
-    private T body;
+public class ResponseHTTP2 {
     private String message;
     private boolean status;
-
-    public T getBody() {
-        return body;
-    }
-
-    public void setBody(T body) {
-        this.body = body;
-    }
 
     public String getMessage() {
         return message;
